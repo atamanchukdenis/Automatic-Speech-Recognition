@@ -6,8 +6,8 @@ import automatic_speech_recognition as asr
 #running only on GTX 1080 until RTX 2060 is fixed
 os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
-dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/train_trunc_dataset.csv', batch_size=32)
-dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/val_trunc_dataset.csv', batch_size=32)
+dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/train_trunc_dataset.csv', batch_size=64)
+dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/val_trunc_dataset.csv', batch_size=64)
 alphabet = asr.text.Alphabet(lang='en')
 features_extractor = asr.features.FilterBanks(
     features_num=160,
