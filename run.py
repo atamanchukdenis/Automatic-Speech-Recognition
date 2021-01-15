@@ -1,6 +1,10 @@
+import os
 import numpy as np
 import tensorflow as tf
 import automatic_speech_recognition as asr
+
+#running only on GTX 1080 until RTX 2060 is fixed
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/train_trunc_dataset.csv', batch_size=32)
 dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/val_trunc_dataset.csv', batch_size=32)
