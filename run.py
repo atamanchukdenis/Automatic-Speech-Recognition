@@ -26,10 +26,17 @@ optimizer = tf.optimizers.Adam(
     epsilon=1e-8
 )
 decoder = asr.decoder.GreedyDecoder()
+spec_augment = asr.augmentation.SpecAugment(
+    F=40,
+    mf=1,
+    Tmin=10,
+    Tmax=30,
+    mt=5
+)
 pipeline = asr.pipeline.CTCPipeline(
     alphabet, features_extractor, model, optimizer, decoder
 )
-pipeline.fit(dataset, dev_dataset, epochs=25)
+pipeline.fit(dataset, dev_dataset, epochs=2, augmentation=spec_augment)
 pipeline.save('/checkpoint')
 
 test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/val_trunc_dataset.csv')
