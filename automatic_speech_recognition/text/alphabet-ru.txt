@@ -1,0 +1,44 @@
+#
+#   Alphabet is the list of valid characters. There are two special characters:
+#       - space: on the beginning
+#       - blank: default added as the last char
+#
+#   To comment the line use `#`
+#
+
+а
+б
+в
+г
+д
+е
+ё
+ж
+з
+и
+й
+к
+л
+м
+н
+о
+п
+р
+с
+т
+у
+ф
+х
+ц
+ч
+ш
+щ
+ъ
+ы
+ь
+э
+ю
+я
+
+# End of vocabulary
+# The last (non-comment) blank line represent the blank token

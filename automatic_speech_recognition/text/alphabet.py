@@ -18,7 +18,7 @@ class Alphabet:
         self.blank_token = None
         self._label_to_str = []
         self._str_to_label = {}
-        if lang in ['en', 'pl']:
+        if lang in ['en', 'pl', 'ru']:
             directory = os.path.dirname(os.path.abspath(__file__))
             file_path = os.path.join(directory, f'alphabet-{lang}.txt')
         elif not file_path:
