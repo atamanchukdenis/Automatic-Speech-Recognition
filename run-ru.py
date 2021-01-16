@@ -37,7 +37,7 @@ pipeline = asr.pipeline.CTCPipeline(
     alphabet, features_extractor, model, optimizer, decoder
 )
 pipeline.fit(dataset, dev_dataset, epochs=2, augmentation=spec_augment)
-pipeline.save('/checkpoint')
+pipeline.save('checkpoint')
 
 test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/ru/cv-corpus-6.0-2020-12-11/ru/val_dataset.csv')
 wer, cer = asr.evaluate.calculate_error_rates(pipeline, test_dataset)
