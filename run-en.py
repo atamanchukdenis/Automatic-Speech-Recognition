@@ -17,7 +17,7 @@ features_extractor = asr.features.FilterBanks(
 )
 model = asr.model.get_deepspeech(
     input_dim=160,
-    output_dim=29
+    output_dim=28
 )
 optimizer = tf.optimizers.Adam(
     lr=1e-4,
