@@ -73,15 +73,15 @@ class CTCPipeline(Pipeline):
 
     def compile_model(self):
         """ The compiled model means the model configured for training. """
+        y = keras.layers.Input(name='y', shape=[None], dtype='int32')
+        loss = self.get_loss()
+        self._model.compile(self._optimizer, loss, target_tensors=[y])
+        logger.info("Model is successfully compiled")
         if self._checkpoint_dir is not None:
-            self._model = keras.models.load_model(
+            self._model.load_weights(
                 os.path.join(self._checkpoint_dir, 'model.h5'))
-            logger.info("Model is loaded from", self._checkpoint_dir)
-        else:
-            y = keras.layers.Input(name='y', shape=[None], dtype='int32')
-            loss = self.get_loss()
-            self._model.compile(self._optimizer, loss, target_tensors=[y])
-            logger.info("Model is successfully compiled")
+            logger.info("Model is loaded from",
+                        os.path.join(self._checkpoint_dir, 'model.h5'))
 
     def fit(self,
             dataset: dataset.Dataset,
