@@ -30,6 +30,7 @@ class CTCPipeline(Pipeline):
                  model: keras.Model,
                  optimizer: keras.optimizers.Optimizer,
                  decoder: decoder.Decoder,
+                 checkpoint_dir = None,
                  gpus: List[str] = None):
         self._alphabet = alphabet
         self._model_cpu = model
@@ -37,6 +38,7 @@ class CTCPipeline(Pipeline):
         self._decoder = decoder
         self._features_extractor = features_extractor
         self._gpus = gpus
+        self._checkpoint_dir = checkpoint_dir
         self._model = self.distribute_model(model, gpus) if gpus else model
 
     @property
@@ -71,10 +73,15 @@ class CTCPipeline(Pipeline):
 
     def compile_model(self):
         """ The compiled model means the model configured for training. """
-        y = keras.layers.Input(name='y', shape=[None], dtype='int32')
-        loss = self.get_loss()
-        self._model.compile(self._optimizer, loss, target_tensors=[y])
-        logger.info("Model is successfully compiled")
+        if self._checkpoint_dir is not None:
+            self._model = keras.models.load_model(
+                os.path.join(self._checkpoint_dir, 'model.h5'))
+            logger.info("Model is loaded from", self._checkpoint_dir)
+        else:
+            y = keras.layers.Input(name='y', shape=[None], dtype='int32')
+            loss = self.get_loss()
+            self._model.compile(self._optimizer, loss, target_tensors=[y])
+            logger.info("Model is successfully compiled")
 
     def fit(self,
             dataset: dataset.Dataset,
