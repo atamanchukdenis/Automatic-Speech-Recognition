@@ -84,7 +84,7 @@ class CTCPipeline(Pipeline):
             **kwargs) -> keras.callbacks.History:
         """ Get ready data, compile and train a model. """
         dataset = self.wrap_preprocess(dataset, prepared_features, augmentation)
-        dev_dataset = self.wrap_preprocess(dataset, prepared_features, augmentation)
+        dev_dataset = self.wrap_preprocess(dev_dataset, prepared_features, augmentation)
         if not self._model.optimizer:  # a loss function and an optimizer
             self.compile_model()  # have to be set before the training
         return self._model.fit(dataset, validation_data=dev_dataset, **kwargs)
