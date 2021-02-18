@@ -35,7 +35,7 @@ spec_augment = asr.augmentation.SpecAugment(
 )
 pipeline = asr.pipeline.CTCPipeline(
     alphabet, features_extractor, model, optimizer, decoder,
-    checkpoint_dir='checkpoint'
+    checkpoint_dir='checkpoint-ru'
 )
 pipeline.fit(dataset, dev_dataset, epochs=2, augmentation=spec_augment)
 pipeline.save('checkpoint')
