@@ -9,6 +9,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="1"
 dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/train_dataset.csv', batch_size=64)
 dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/val_dataset.csv', batch_size=64)
 alphabet = asr.text.Alphabet(lang='en')
+lm = asr.text.LanguageModel('/home/datamanc/data/CommonCrawl/400K_3-gram.binary').load()
 features_extractor = asr.features.FilterBanks(
     features_num=160,
     winlen=0.02,
@@ -26,6 +27,8 @@ optimizer = tf.optimizers.Adam(
     epsilon=1e-8
 )
 decoder = asr.decoder.GreedyDecoder()
+#decoder = asr.decoder.PrefixBeamSearchDecoder(
+#    lm=lm)
 spec_augment = asr.augmentation.SpecAugment(
     F=40,
     mf=1,
