@@ -1,1 +1,1 @@
-from .decoder import Decoder, GreedyDecoder, PrefixBeamSearchDecoder
+from .decoder import Decoder, GreedyDecoder
