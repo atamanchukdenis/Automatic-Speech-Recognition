@@ -151,7 +151,6 @@ class CTCPipeline(Pipeline):
                  model: keras.Model,
                  optimizer: keras.optimizers.Optimizer,
                  decoder: decoder.Decoder,
-                 lm,
                  checkpoint_dir = None,
                  gpus: List[str] = None):
         self._alphabet = alphabet
