@@ -16,7 +16,7 @@ class Audio(SortedDataset):
     def from_csv(cls, file_path: str, **kwargs):
         """ The reference csv file contains paths and transcripts, which are
         comma separated. """
-        references = pd.read_csv(file_path, usecols=['path', 'transcript'],
+        references = pd.read_csv(file_path, usecols=['path', 'transcript', 'frames'],
                                  sep=',', encoding='utf-8', header=0)
         return cls(references=references, **kwargs)
 
