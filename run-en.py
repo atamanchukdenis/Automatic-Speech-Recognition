@@ -40,7 +40,7 @@ optimizer = tf.optimizers.Adam(
     beta_2=0.999,
     epsilon=1e-8
 )
-#decoder = asr.decoder.GreedyDecoder()
+decoder = asr.decoder.GreedyDecoder()
 #decoder = asr.decoder.prefix_beam_search_decoder
 spec_augment = asr.augmentation.SpecAugment(
     F=40,
@@ -50,10 +50,10 @@ spec_augment = asr.augmentation.SpecAugment(
     mt=5
 )
 pipeline = asr.pipeline.CTCPipeline(
-    alphabet, features_extractor, model, optimizer,
+    alphabet, features_extractor, model, optimizer, decoder,
     checkpoint_dir=None
 )
-pipeline.fit(dataset, dev_dataset, epochs=1, augmentation=spec_augment)
+pipeline.fit(dataset, dev_dataset, epochs=1, augmentation=None)
 pipeline.save('checkpoint')
 
 test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/val_dataset.csv',
