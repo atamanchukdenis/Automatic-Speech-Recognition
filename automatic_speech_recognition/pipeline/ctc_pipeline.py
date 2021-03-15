@@ -221,8 +221,8 @@ class CTCPipeline(Pipeline):
         """ Get ready features, and make a prediction. """
         features = self._features_extractor(batch_audio)
         batch_logits = self._model.predict(features, **kwargs)
-        #decoded_labels = self._decoder(batch_logits)
-        decoded_labels = prefix_beam_search_decoder(batch_logits, lm=lm)
+        decoded_labels = self._decoder(batch_logits)
+        #decoded_labels = prefix_beam_search_decoder(batch_logits, lm=lm)
         predictions = self._alphabet.get_batch_transcripts(decoded_labels)
         return predictions
 
