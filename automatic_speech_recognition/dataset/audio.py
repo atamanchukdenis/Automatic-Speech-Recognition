@@ -1,7 +1,7 @@
 from typing import Tuple, List
 import numpy as np
 import pandas as pd
-from . import Dataset
+from . import SortedDataset
 from .. import utils
 
 
