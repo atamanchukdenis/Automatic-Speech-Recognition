@@ -5,7 +5,7 @@ from . import Dataset
 from .. import utils
 
 
-class Audio(Dataset):
+class Audio(SortedDataset):
     """
     The `Audio` dataset keeps a reference to audio files and corresponding
     transcriptions. The audio files are read and then return with

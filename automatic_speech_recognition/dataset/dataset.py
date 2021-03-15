@@ -44,3 +44,61 @@ class Dataset(keras.utils.Sequence):
     def shuffle_indices(self):
         """ Set up the order of return batches. """
         np.random.shuffle(self._indices)
+
+
+class SortedDataset(Dataset):
+
+    def __init__(self,
+                 references: pd.DataFrame,
+                 batch_size: int,
+                 is_sorted: bool = False,
+                 is_bins_behaviour: bool = False,
+                 bins: int = 0):
+        super().__init__(references, batch_size)
+
+        self._is_sorted = is_sorted
+        self._is_bins_behaviour = is_bins_behaviour
+        self._bins = bins
+
+        if self._is_sorted or self._is_bins_behaviour:
+            self.sort()
+
+        if self._is_bins_behaviour:
+            self.shuffle_bins()
+
+        print('Dataset initialized:',
+              self._references.iloc[0]['frames'],
+              self._references.iloc[0 + self._batch_size]['frames'],
+              self._references.iloc[self._references.shape[0] - 1 - self._batch_size]['frames'],
+              self._references.iloc[self._references.shape[0] - 1]['frames'])
+
+    def on_epoch_end(self):
+        super().on_epoch_end()
+        if self._is_bins_behaviour:
+            self.shuffle_bins()
+            print('bins shuffled')
+
+    def sort(self):
+        self._references = self._references \
+            .sort_values(by=['frames']) \
+            .reset_index(drop=True)
+
+    def shuffle_bins(self):
+        df_bins = np.array_split(
+            self._references, self._bins)
+
+        inds = np.arange(
+            len(df_bins))
+        np.random.shuffle(inds)
+        inds = inds.tolist()
+
+        df_bins_shuffled = []
+        for ind in inds:
+            df_bin = df_bins[ind]
+            df_bins_shuffled.append(
+                df_bin.sample(frac=1))
+        df_bins = df_bins_shuffled
+
+        self._references = pd \
+            .concat(df_bins) \
+            .reset_index(drop=True)

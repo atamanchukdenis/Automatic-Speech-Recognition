@@ -11,8 +11,17 @@ assert len(physical_devices) > 0, "Not enough GPU hardware devices available"
 config = tf.config.experimental.set_memory_growth(physical_devices[0], True)
 #config = tf.config.experimental.set_memory_growth(physical_devices[1], True)
 
-dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/train_dataset.csv', batch_size=32)
-dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/val_dataset.csv', batch_size=32)
+dataset = asr.dataset.Audio.from_csv(
+    '/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/train_dataset.csv',
+    batch_size=48,
+    is_sorted=True,
+    is_bins_behaviour=False,
+    bins=0)
+dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/val_dataset.csv',
+    batch_size=48,
+    is_sorted=True,
+    is_bins_behaviour=True,
+    bins=50)
 alphabet = asr.text.Alphabet(lang='en')
 #lm = asr.text.LanguageModel('/home/datamanc/data/CommonCrawl/400K_3-gram.binary').load()
 features_extractor = asr.features.FilterBanks(
@@ -42,12 +51,15 @@ spec_augment = asr.augmentation.SpecAugment(
 )
 pipeline = asr.pipeline.CTCPipeline(
     alphabet, features_extractor, model, optimizer,
-    checkpoint_dir='checkpoint',
-    gpus=['GTX 1080', 'RTX 2060']
+    checkpoint_dir=None
 )
-pipeline.fit(dataset, dev_dataset, epochs=2, augmentation=spec_augment)
+pipeline.fit(dataset, dev_dataset, epochs=1, augmentation=spec_augment)
 pipeline.save('checkpoint')
 
-test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/val_dataset.csv', batch_size=32)
+test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-corpus-6.1-2020-12-11/en/val_dataset.csv',
+    batch_size=48,
+    is_sorted=True,
+    is_bins_behaviour=True,
+    bins=50)
 wer, cer = asr.evaluate.calculate_error_rates(pipeline, test_dataset)
 print(f'WER: {wer}   CER: {cer}')
