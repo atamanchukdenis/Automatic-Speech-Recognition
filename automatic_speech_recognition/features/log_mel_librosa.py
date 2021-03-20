@@ -15,7 +15,7 @@ class LogMelLibrosa(features.FeaturesExtractor):
 
     def make_features(self, audio: np.ndarray) -> np.ndarray:
         melSpectrum = librosa.feature.melspectrogram(
-            samples.astype(np.float16),
+            audio.astype(np.float16),
             sr=self.sr,
             n_fft=self.n_fft,
             hop_length=self.hop_length,
