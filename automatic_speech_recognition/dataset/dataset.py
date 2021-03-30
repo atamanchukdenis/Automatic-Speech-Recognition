@@ -69,6 +69,8 @@ class SortedDataset(Dataset):
             self.shuffle_homogeneous_bins()
         elif self._is_bins_behaviour:
             self.shuffle_bins()
+        else:
+            self.shuffle_indices()
 
         print('Dataset initialized:',
               self._references.iloc[0]['frames'],
@@ -84,6 +86,9 @@ class SortedDataset(Dataset):
         elif self._is_bins_behaviour:
             self.shuffle_bins()
             print('bins shuffled')
+        else:
+            self.shuffle_indices()
+            print('dataset shuffled')
 
     def sort(self):
         self._references = self._references \
