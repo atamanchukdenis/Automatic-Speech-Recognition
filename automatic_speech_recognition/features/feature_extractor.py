@@ -29,11 +29,12 @@ class FeaturesExtractor:
         return audio * gain
 
     @staticmethod
-    def align(arrays: list, default=0) -> np.ndarray:
+    def align(arrays: list, default=-1.25) -> np.ndarray:
         """ Pad arrays (default along time dimensions). Return the single
         array (batch_size, time, features). """
         max_array = max(arrays, key=len)
-        X = np.full(shape=[len(arrays), *max_array.shape],
+        #X = np.full(shape=[len(arrays), *max_array.shape],
+        X = np.full(shape=[len(arrays), 962, max_array.shape[1]],
                     fill_value=default, dtype=float)
         for index, array in enumerate(arrays):
             time_dim, features_dim = array.shape
