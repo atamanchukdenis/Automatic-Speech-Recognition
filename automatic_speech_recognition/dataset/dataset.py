@@ -54,10 +54,13 @@ class SortedDataset(Dataset):
                  is_sorted: bool = False,
                  is_bins_behaviour: bool = False,
                  is_homogeneous: bool = False,
+                 is_pad_transcript: bool = True,
                  bins: int = 0):
         super().__init__(references, batch_size)
 
-        self._references['transcript'] = self._references['transcript'].str.pad(width=100, side='right')
+        self._is_pad_transcript = is_pad_transcript
+        if self._is_pad_transcript:
+            self._references['transcript'] = self._references['transcript'].str.pad(width=100, side='right')
 
         self._is_sorted = is_sorted
         self._is_bins_behaviour = is_bins_behaviour
