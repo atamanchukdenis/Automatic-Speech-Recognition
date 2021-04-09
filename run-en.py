@@ -24,7 +24,7 @@ dev_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv-
     is_sorted=False,
     is_bins_behaviour=False,
     is_homogeneous=False,
-    is_pad_transcript=False,
+    is_pad_transcript=True,
     bins=0)
 alphabet = asr.text.Alphabet(lang='en')
 #lm = asr.text.LanguageModel('/home/datamanc/data/CommonCrawl/400K_3-gram.binary').load()
@@ -72,7 +72,7 @@ test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv
     is_sorted=False,
     is_bins_behaviour=False,
     is_homogeneous=False,
-    is_pad_transcript=False,
+    is_pad_transcript=True,
     bins=0)
 wer, cer = asr.evaluate.calculate_error_rates(pipeline, test_dataset)
 print(f'Val WER: {wer}   Val CER: {cer}')
@@ -82,7 +82,7 @@ test_dataset = asr.dataset.Audio.from_csv('/home/datamanc/data/CommonVoice/en/cv
     is_sorted=False,
     is_bins_behaviour=False,
     is_homogeneous=False,
-    is_pad_transcript=False,
+    is_pad_transcript=True,
     bins=0)
 wer, cer = asr.evaluate.calculate_error_rates(pipeline, test_dataset)
 print(f'Train WER: {wer}   Train CER: {cer}')
